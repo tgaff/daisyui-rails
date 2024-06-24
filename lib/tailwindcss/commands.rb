@@ -4,6 +4,7 @@ module Tailwindcss
   module Commands
     DEFAULT_DIR = File.expand_path(File.join(__dir__, "..", "..", "exe"))
     GEM_NAME = "tailwindcss-rails"
+    EXE_NAME = "tailwindcss-extra"
 
     # raised when the host platform is not supported by upstream tailwindcss's binary releases
     class UnsupportedPlatformException < StandardError
@@ -28,21 +29,21 @@ module Tailwindcss
           if File.directory?(tailwindcss_install_dir)
             warn "NOTE: using TAILWINDCSS_INSTALL_DIR to find tailwindcss executable: #{tailwindcss_install_dir}"
             exe_path = tailwindcss_install_dir
-            exe_file = File.expand_path(File.join(tailwindcss_install_dir, "tailwindcss"))
+            exe_file = File.expand_path(File.join(tailwindcss_install_dir, EXE_NAME))
           else
             raise DirectoryNotFoundException, <<~MESSAGE
               TAILWINDCSS_INSTALL_DIR is set to #{tailwindcss_install_dir}, but that directory does not exist.
             MESSAGE
           end
         else
-          if Tailwindcss::Upstream::NATIVE_PLATFORMS.keys.none? { |p| Gem::Platform.match_gem?(Gem::Platform.new(p), GEM_NAME) }
+          if Tailwindcss::UpstreamExtra::NATIVE_PLATFORMS.keys.none? { |p| Gem::Platform.match_gem?(Gem::Platform.new(p), GEM_NAME) }
             raise UnsupportedPlatformException, <<~MESSAGE
               tailwindcss-rails does not support the #{platform} platform
               Please install tailwindcss following instructions at https://tailwindcss.com/docs/installation
             MESSAGE
           end
 
-          exe_file = Dir.glob(File.expand_path(File.join(exe_path, "*", "tailwindcss"))).find do |f|
+          exe_file = Dir.glob(File.expand_path(File.join(exe_path, "*", EXE_NAME))).find do |f|
             Gem::Platform.match_gem?(Gem::Platform.new(File.basename(File.dirname(f))), GEM_NAME)
           end
         end

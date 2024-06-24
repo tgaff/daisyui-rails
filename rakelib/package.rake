@@ -66,10 +66,10 @@
 #
 require "rubygems/package_task"
 require "open-uri"
-require_relative "../lib/tailwindcss/upstream"
+require_relative "../lib/tailwindcss/upstream_extra"
 
 def tailwindcss_download_url(filename)
-  "https://github.com/tailwindlabs/tailwindcss/releases/download/#{Tailwindcss::Upstream::VERSION}/#{filename}"
+  "https://github.com/dobicinaitis/tailwind-cli-extra/releases/download/#{Tailwindcss::UpstreamExtra::VERSION}/#{filename}"
 end
 
 TAILWINDCSS_RAILS_GEMSPEC = Bundler.load_gemspec("tailwindcss-rails.gemspec")
@@ -82,7 +82,7 @@ desc "Build the ruby gem"
 task "gem:ruby" => [gem_path]
 
 exepaths = []
-Tailwindcss::Upstream::NATIVE_PLATFORMS.each do |platform, filename|
+Tailwindcss::UpstreamExtra::NATIVE_PLATFORMS.each do |platform, filename|
   TAILWINDCSS_RAILS_GEMSPEC.dup.tap do |gemspec|
     exedir = File.join(gemspec.bindir, platform) # "exe/x86_64-linux"
     exepath = File.join(exedir, "tailwindcss") # "exe/x86_64-linux/tailwindcss"
@@ -113,6 +113,9 @@ Tailwindcss::Upstream::NATIVE_PLATFORMS.each do |platform, filename|
   end
 end
 
+
+# unfortunately THIS upstream repo doesn't have checksums yet
+=begin
 desc "Validate checksums for tailwindcss binaries"
 task "check" => exepaths do
   sha_filename = "sha256sums.txt"
@@ -124,7 +127,7 @@ task "check" => exepaths do
     [File.basename(file), checksum]
   end.to_h
 
-  Tailwindcss::Upstream::NATIVE_PLATFORMS.each do |platform, filename|
+  Tailwindcss::UpstreamExtra::NATIVE_PLATFORMS.each do |platform, filename|
     exedir = File.join(gemspec.bindir, platform) # "exe/x86_64-linux"
     exepath = File.join(exedir, "tailwindcss") # "exe/x86_64-linux/tailwindcss"
 
@@ -138,8 +141,9 @@ task "check" => exepaths do
     end
   end
 end
+=end
 
 desc "Download all tailwindcss binaries"
-task "download" => :check
+task "download" => exepaths
 
 CLOBBER.add(exepaths.map { |p| File.dirname(p) })

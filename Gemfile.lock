@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tailwindcss-rails (2.6.1)
+    tailwindcss-rails (3.0.0)
       railties (>= 7.0.0)
 
 GEM
@@ -132,7 +132,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     webrick (1.8.1)
-    zeitwerk (2.6.15)
+    zeitwerk (2.6.16)
 
 PLATFORMS
   arm64-darwin
@@ -146,4 +146,4 @@ DEPENDENCIES
   tailwindcss-rails!
 
 BUNDLED WITH
-   2.5.4
+   2.5.14
