@@ -25,6 +25,8 @@ module Tailwindcss
 
       def executable(exe_path: DEFAULT_DIR)
         tailwindcss_install_dir = ENV["TAILWINDCSS_INSTALL_DIR"]
+        puts "tailwindcss_install_dir: #{tailwindcss_install_dir}"
+
         if tailwindcss_install_dir
           if File.directory?(tailwindcss_install_dir)
             warn "NOTE: using TAILWINDCSS_INSTALL_DIR to find tailwindcss executable: #{tailwindcss_install_dir}"
@@ -44,6 +46,7 @@ module Tailwindcss
           end
 
           exe_file = Dir.glob(File.expand_path(File.join(exe_path, "*", EXE_NAME))).find do |f|
+            puts "XXXX - #{f}"
             Gem::Platform.match_gem?(Gem::Platform.new(File.basename(File.dirname(f))), GEM_NAME)
           end
         end
