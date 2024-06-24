@@ -1,4 +1,4 @@
-require_relative "upstream"
+require_relative "upstream_extra"
 
 module Tailwindcss
   module Commands
