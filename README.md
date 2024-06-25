@@ -13,4 +13,6 @@ With this the goal is to allow DaisyUI & tailwind to work in Rails the same way 
 
 # WIP
 
-This is WIP but works experimentally.  I need to re-write this to be more of a build-script combining the two.
+This is WIP but works experimentally.  Likely will convert this into its own gem. It may work as a fork but is likely less maintainable.
+I'm considering a re-write to make this more of a build-script combining the two.
+
